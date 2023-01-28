@@ -27,6 +27,6 @@ func main() {
 }
 ```
 
-**prewview output**
+**preview logs**
 
 ![preview image A](previews/preview-a.png)
