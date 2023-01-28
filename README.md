@@ -7,7 +7,7 @@ This is a small go package that provides two simple logging functions to aid in 
 
 **install in project**
 
-From project directory run:
+Using go modules, from your project directory you can run:
 
 ```
 go get github.com/jesse-rb/slogger-go 
