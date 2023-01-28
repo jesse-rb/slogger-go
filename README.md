@@ -36,7 +36,8 @@ func main() {
 
 ## References
 
-Used [8 colours from Haoyi's Programming Blog](https://www.lihaoyi.com/post/BuildyourownCommandLinewithANSIescapecodes.html#8-colors)
+Referenced [3 bit 8 colours from Haoyi's Programming Blog](https://www.lihaoyi.com/post/BuildyourownCommandLinewithANSIescapecodes.html#8-colors)
+as most terminals should supprot this
 ```
 var ansiColors map[string]string = map[string]string {
     "reset":    "\u001b[0m",

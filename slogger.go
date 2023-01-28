@@ -6,7 +6,7 @@ import (
 	"os"
 )
 
-// 8 bit color ansi color codes for colored logging output
+// 3 bit color ansi color codes for colored logging output
 // srouce: https://www.lihaoyi.com/post/BuildyourownCommandLinewithANSIescapecodes.html#8-colors
 var ansiColors map[string]string = map[string]string {
     "reset":    "\u001b[0m",
