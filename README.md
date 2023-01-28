@@ -2,6 +2,8 @@
 
 This is a small go package that provides two simple logging functions to aid in development
 
+[pkg.go.dev docs page](https://pkg.go.dev/github.com/jesse-rb/slogger-go)
+
 
 **install in project**
 
