@@ -27,13 +27,13 @@ func logGeneral(log *log.Logger, tag string, msg string, data interface{}) {
     log.Println(fmt.Sprintf("%s -> %s -> data:\n%d%s", tag, msg, data, ansiColors["reset"]));
 }
 
-// Log an error using the error logger
+// Log an error using the error logger,
 // example usage: logger.LogError("main", "something horrible happened.", []int{1,2,3})
 func LogError(tag string, msg string, data interface{}) {
     logGeneral(errorLogger, tag, msg, data)
 }
 
-// Log info using the info logger
+// Log info using the info logger,
 // example usage: logger.LogInfo("main", "Something worth noting happened.", []int{1,2,3})
 func LogInfo(tag string, msg string, data interface{}) {
     logGeneral(infoLogger, tag, msg, data)
