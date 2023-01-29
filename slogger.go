@@ -2,46 +2,60 @@ package logger
 
 import (
 	"fmt"
+	"io"
 	"log"
-	"os"
 )
 
 // 3 bit color ansi color codes for colored logging output
 // srouce: https://www.lihaoyi.com/post/BuildyourownCommandLinewithANSIescapecodes.html#8-colors
-var ansiColors map[string]string = map[string]string {
-    "reset":    "\u001b[0m",
-    "red":      "\u001b[31m",
-    "blue":     "\u001b[34m",
-    "black":    "\u001b[30m",
-    "green":    "\u001b[32m",
-    "yellow":   "\u001b[33m",
-    "magenta":  "\u001b[35m",
-    "cyan":     "\u001b[36m",
-    "white":    "\u001b[37m",
+const (
+    ANSIReset    = "\u001b[0m"
+    ANSIRed      = "\u001b[31m"
+    ANSIBlue     = "\u001b[34m"
+    ANSIBlack    = "\u001b[30m"
+    ANSIGreen    = "\u001b[32m"
+    ANSIYellow   = "\u001b[33m"
+    ANSIMagenta  = "\u001b[35m"
+    ANSICyan     = "\u001b[36m"
+    ANSIWhite    = "\u001b[37m"
+)
+
+// Contains a standard golang log.logger for this pacakge to exectute it's functions
+type Logger struct {
+    l *log.Logger
 }
 
-// Init logger prefix variables
-var globalPrefix = "prjct -> "
-var errorPrefix = fmt.Sprintf("%serror -> ", ansiColors["red"])
-var infoPrefix = fmt.Sprintf("%sinfo -> ", ansiColors["blue"])
+// Init logger global prefix
+var GlobalPrefix = "project"
 
-// Init logger variables
-var errorLogger *log.Logger = log.New(os.Stderr, fmt.Sprintf("%s%s", globalPrefix, errorPrefix), log.Flags())
-var infoLogger *log.Logger = log.New(os.Stdout, fmt.Sprintf("%s%s", globalPrefix, infoPrefix), log.Flags())
+// Return formatted logger prefix
+func formatPrefix(color string, localPrefix string) string {
+    var prefix string = fmt.Sprintf("%s -> %s%s -> ", GlobalPrefix, color, localPrefix)
+    return prefix
+}
+
+// Returnd formatted log
+func formatLog(tag string, msg string, data interface{}) string {
+    var log string = fmt.Sprintf("%s -> %s -> data:\n%d%s", tag, msg, data, ANSIReset)
+    return log
+}
 
 // Internal log function that exported functions can call
 func logGeneral(log *log.Logger, tag string, msg string, data interface{}) {
-    log.Println(fmt.Sprintf("%s -> %s -> data:\n%d%s", tag, msg, data, ansiColors["reset"]));
+    log.Println(formatLog(tag, msg, data));
 }
 
-// Log an error using the error logger,
-// example usage: logger.LogError("main", "something horrible happened.", []int{1,2,3})
-func LogError(tag string, msg string, data interface{}) {
-    logGeneral(errorLogger, tag, msg, data)
+// Create a new logger similr to how you would create a default go log.Logger using log.New()
+// NewLogger expects out -- io.Writer, color -- a 
+func New(out io.Writer, color string, localPrefix string, flag int) *Logger {
+    return &Logger{ l: log.New(out, formatPrefix(color, localPrefix), flag) }
 }
 
-// Log info using the info logger,
-// example usage: logger.LogInfo("main", "Something worth noting happened.", []int{1,2,3})
-func LogInfo(tag string, msg string, data interface{}) {
-    logGeneral(infoLogger, tag, msg, data)
+// Log something, you can provide:
+// a tag e.g. function name,
+// a msg e.g. info about something that happened,
+// a data interface, e.g. []int{3, 5, 6} OR 4+2
+func (l *Logger) Log(tag string, msg string, data interface{}) {
+    logGeneral(l.l, tag, msg, data)
 }
+

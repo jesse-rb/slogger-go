@@ -21,11 +21,23 @@ package main
 
 import (
 	slogger "github.com/jesse-rb/slogger-go"
+    log
+    os
 )
 
 func main() {
-    slogger.LogInfo("main", "Some info.", 2+4)
-    slogger.LogError("main", "Some error", 4+0)
+    // Init new logger
+    var localPrefix string = "example e.g. <package name>"
+    var flags int = log.Ldate+log.Lshortfile
+
+    var l = slogger.New(os.Stdout, slogger.ANSIGreen, localPrefix, flags)
+    
+    // Log to output
+    var tag string = "example e.g. <function name>"
+    var msg string = "Testing a new logger"
+    var data []int = []int{3, 5, 7}
+
+    l.Log(tag, msg, data)
 }
 ```
 
@@ -39,16 +51,16 @@ func main() {
 Referenced [3 bit 8 colours from Haoyi's Programming Blog](https://www.lihaoyi.com/post/BuildyourownCommandLinewithANSIescapecodes.html#8-colors)
 as most terminals should supprot this
 ```
-var ansiColors map[string]string = map[string]string {
-    "reset":    "\u001b[0m",
-    "red":      "\u001b[31m",
-    "blue":     "\u001b[34m",
-    "black":    "\u001b[30m",
-    "green":    "\u001b[32m",
-    "yellow":   "\u001b[33m",
-    "magenta":  "\u001b[35m",
-    "cyan":     "\u001b[36m",
-    "white":    "\u001b[37m",
-}
+const (
+    ANSIReset    = "\u001b[0m"
+    ANSIRed      = "\u001b[31m"
+    ANSIBlue     = "\u001b[34m"
+    ANSIBlack    = "\u001b[30m"
+    ANSIGreen    = "\u001b[32m"
+    ANSIYellow   = "\u001b[33m"
+    ANSIMagenta  = "\u001b[35m"
+    ANSICyan     = "\u001b[36m"
+    ANSIWhite    = "\u001b[37m"
+)
 ```
 
