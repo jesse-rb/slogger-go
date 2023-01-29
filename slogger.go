@@ -20,7 +20,7 @@ const (
     ANSIWhite    = "\u001b[37m"
 )
 
-// Contains a standard golang log.logger for this pacakge to exectute it's functions
+// Contains a standard golang log.logger for this package to exectute it's functions
 type Logger struct {
     l *log.Logger
 }
@@ -34,7 +34,7 @@ func formatPrefix(color string, localPrefix string) string {
     return prefix
 }
 
-// Returnd formatted log
+// Return formatted log
 func formatLog(tag string, msg string, data interface{}) string {
     var log string = fmt.Sprintf("%s -> %s -> data:\n%d%s", tag, msg, data, ANSIReset)
     return log
