@@ -26,18 +26,13 @@ import (
 )
 
 func main() {
-    // Init new logger
-    var localPrefix string = "example e.g. <package name>"
-    var flags int = log.Ldate+log.Lshortfile
+    // Declare some loggers
+    infoLogger := slogger.New(os.Stdout, slogger.ANSIBlue, "info", log.Lshortfile+log.Ldate);
+    errorLogger := slogger.New(os.Stdout, slogger.ANSIRed, "error", log.Lshortfile+log.Ldate);
 
-    var l = slogger.New(os.Stdout, slogger.ANSIGreen, localPrefix, flags)
-    
-    // Log to output
-    var tag string = "example e.g. <function name>"
-    var msg string = "Testing a new logger"
-    var data []int = []int{3, 5, 7}
-
-    l.Log(tag, msg, data)
+    // Log some things
+    infoLogger.Log("main", "Something worth noting happened", 2+4)
+    errorLogger.Log("main", "Some horrible error happened", []int{3, 5, 7})
 }
 ```
 
