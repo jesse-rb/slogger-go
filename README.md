@@ -28,7 +28,7 @@ import (
 func main() {
     // Declare some loggers
     infoLogger := slogger.New(os.Stdout, slogger.ANSIBlue, "info", log.Lshortfile+log.Ldate);
-    errorLogger := slogger.New(os.Stdout, slogger.ANSIRed, "error", log.Lshortfile+log.Ldate);
+    errorLogger := slogger.New(os.Stderr, slogger.ANSIRed, "error", log.Lshortfile+log.Ldate);
 
     // Log some things
     infoLogger.Log("main", "Something worth noting happened", 2+4)
