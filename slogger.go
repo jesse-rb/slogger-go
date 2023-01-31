@@ -45,8 +45,7 @@ func logGeneral(log *log.Logger, tag string, msg string, data interface{}) {
     log.Println(formatLog(tag, msg, data));
 }
 
-// Create a new logger similr to how you would create a default go log.Logger using log.New()
-// NewLogger expects out -- io.Writer, color -- a 
+// Create a new logger similr to how you would create a default go log.Logger with log.New()
 func New(out io.Writer, color string, localPrefix string, flag int) *Logger {
     return &Logger{ l: log.New(out, formatPrefix(color, localPrefix), flag) }
 }
