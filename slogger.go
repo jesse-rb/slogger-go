@@ -2,8 +2,6 @@ package logger
 
 import (
 	"fmt"
-	"go/constant"
-	"image/color"
 	"io"
 	"log"
 )
@@ -52,7 +50,7 @@ func logGeneral(log *log.Logger, tag string, msg string, data interface{}) {
 // Create a new logger similr to how you would create a default go log.Logger with log.New()
 func New(out io.Writer, color string, localPrefix string, flag int) *Logger {
     var l *log.Logger = log.New(out, formatPrefix(color, localPrefix), flag)
-    return &Logger{ l: l, color: color }
+    return &Logger{ l: l, color: color, localPrefix: localPrefix }
 }
 
 // Log something, you can provide:
@@ -72,3 +70,4 @@ func (l *Logger) SetLocalPrefix(localPrefix string) {
 func (l *Logger) SetColor(color string) {
     l.l.SetPrefix(formatPrefix(color, l.localPrefix))
 }
+
