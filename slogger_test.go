@@ -17,7 +17,7 @@ func TestNew(t *testing.T) {
     if l, ok := l.(*Logger); ok {
         t.Log("l IS of type *Logger")
 
-        if l.localPrefix != localPrefix+"xd" {
+        if l.localPrefix != localPrefix {
             t.Errorf("localPrefix: %s\ndoes not match expected: %s\n", l.localPrefix, localPrefix)
         }
     } else {
