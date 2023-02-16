@@ -63,6 +63,7 @@ func (l *Logger) Log(tag string, msg string, data interface{}) {
 
 // Set local prefix of logger
 func (l *Logger) SetLocalPrefix(localPrefix string) {
+    l.localPrefix = localPrefix
     l.l.SetPrefix(formatPrefix(l.color, localPrefix))
 }
 

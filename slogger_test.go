@@ -47,3 +47,17 @@ func TestLog(t *testing.T) {
     }
 }
 
+func TestSetLocalPrefix(t *testing.T) {
+    // Init new logger
+    var out bytes.Buffer
+    var l = New(&out, ANSIGreen, "slogger_test", 0)
+    var newLocalPrefix string = "[TestLocalPrefix]"
+    
+    // Set new local prefix
+    l.SetLocalPrefix(newLocalPrefix)
+    // Test that new local prefix is set
+    if (l.localPrefix != newLocalPrefix) {
+        t.Fatalf("localPrefix: %s\ndoes not match expected: %s\n", l.localPrefix, newLocalPrefix)
+    }
+}
+
