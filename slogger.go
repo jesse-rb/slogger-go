@@ -69,6 +69,7 @@ func (l *Logger) SetLocalPrefix(localPrefix string) {
 
 // Set color of logger
 func (l *Logger) SetColor(color string) {
+    l.color = color
     l.l.SetPrefix(formatPrefix(color, l.localPrefix))
 }
 
