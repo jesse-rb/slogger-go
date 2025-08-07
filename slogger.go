@@ -25,6 +25,7 @@ type Logger struct {
 	l           *log.Logger
 	color       string
 	localPrefix string
+	calldepth   int
 }
 
 // Init logger global prefix
@@ -43,14 +44,14 @@ func formatLog(tag string, msg string, data interface{}) string {
 }
 
 // Internal log function that exported functions can call
-func logGeneral(log *log.Logger, tag string, msg string, data interface{}) {
-	log.Println(formatLog(tag, msg, data))
+func logGeneral(log *log.Logger, tag string, msg string, data interface{}, calldepth int) {
+	log.Output(calldepth, formatLog(tag, msg, data))
 }
 
 // Create a new logger similr to how you would create a default go log.Logger with log.New()
-func New(out io.Writer, color string, localPrefix string, flag int) *Logger {
+func New(out io.Writer, color string, localPrefix string, flag int, calldepth int) *Logger {
 	var l *log.Logger = log.New(out, formatPrefix(color, localPrefix), flag)
-	return &Logger{l: l, color: color, localPrefix: localPrefix}
+	return &Logger{l: l, color: color, localPrefix: localPrefix, calldepth: calldepth}
 }
 
 // Log something, you can provide:
@@ -58,7 +59,7 @@ func New(out io.Writer, color string, localPrefix string, flag int) *Logger {
 // a msg e.g. info about something that happened,
 // a data interface, e.g. []int{3, 5, 6} OR 4+2
 func (l *Logger) Log(tag string, msg string, data interface{}) {
-	logGeneral(l.l, tag, msg, data)
+	logGeneral(l.l, tag, msg, data, l.calldepth+2)
 }
 
 // Set local prefix of logger
