@@ -12,7 +12,7 @@ with the added ability to pass paremeters to configure a log color (using ANSI c
 Using go modules, from your project directory you can run:
 
 ```
-go get github.com/jesse-rb/slogger-go 
+go get github.com/jesse-rb/slogger-go/v2
 ```
 
 
