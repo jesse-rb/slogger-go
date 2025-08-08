@@ -4,7 +4,7 @@ This is a small go package that provides a few simple logging functions to aid i
 This package allows you to register a new logger very similar to how you would a standard go `log.Logger`,
 with the added ability to pass paremeters to configure a log color (using ANSI color codes) and some log prefixese.
 
-[pkg.go.dev docs page](https://pkg.go.dev/github.com/jesse-rb/slogger-go)
+[pkg.go.dev docs page](https://pkg.go.dev/github.com/jesse-rb/slogger-go/v2)
 
 
 **install in project**
