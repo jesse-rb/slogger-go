@@ -4,7 +4,7 @@ This is a small go package that provides a few simple logging functions to aid i
 This package allows you to register a new logger very similar to how you would a standard go `log.Logger`,
 with the added ability to pass paremeters to configure a log color (using ANSI color codes) and some log prefixese.
 
-[pkg.go.dev docs page](https://pkg.go.dev/github.com/jesse-rb/slogger-go)
+[pkg.go.dev docs page](https://pkg.go.dev/github.com/jesse-rb/slogger-go/v2)
 
 
 **install in project**
@@ -22,19 +22,22 @@ go get github.com/jesse-rb/slogger-go
 package main
 
 import (
+	"log"
+	"os"
+
 	slogger "github.com/jesse-rb/slogger-go"
-    log
-    os
 )
 
 func main() {
-    // Declare some loggers
-    infoLogger := slogger.New(os.Stdout, slogger.ANSIBlue, "info", log.Lshortfile+log.Ldate);
-    errorLogger := slogger.New(os.Stderr, slogger.ANSIRed, "error", log.Lshortfile+log.Ldate);
+	slogger.GlobalPrefix = "[slogger-example]"
 
-    // Log some things
-    infoLogger.Log("main", "Something worth noting happened", 2+4)
-    errorLogger.Log("main", "Some horrible error happened", []int{3, 5, 7})
+	// Declare some loggers
+	infoLogger := slogger.New(os.Stdout, slogger.ANSIBlue, "INFO", log.Lshortfile+log.Ldate)
+	errorLogger := slogger.New(os.Stderr, slogger.ANSIRed, "ERROR", log.Lshortfile+log.Ldate)
+
+	// Log some things
+	infoLogger.Log("main()", "Something worth noting happened", 2+4)
+	errorLogger.Log("main()", "Some horrible error happened", []int{3, 5, 7})
 }
 ```
 
@@ -42,6 +45,12 @@ func main() {
 
 ![preview image A](previews/preview-a.png)
 
+```
+[slogger-example] -> INFO -> 2025/08/08 main.go:18: main() -> Something worth noting happened -> data:
+6
+[slogger-example] -> ERROR -> 2025/08/08 main.go:19: main() -> Some horrible error happened -> data:
+[]int{3, 5, 7}
+```
 
 ## References
 
