@@ -25,6 +25,7 @@ type Logger struct {
 	l           *log.Logger
 	color       string
 	localPrefix string
+	calldepth   int
 }
 
 // Init logger global prefix
@@ -32,43 +33,69 @@ var GlobalPrefix = "project"
 
 // Return formatted logger prefix
 func formatPrefix(color string, localPrefix string) string {
-	var prefix string = fmt.Sprintf("%s -> %s%s -> ", GlobalPrefix, color, localPrefix)
+	prefix := ""
+
+	if GlobalPrefix != "" {
+		prefix = fmt.Sprintf("%s -> ", GlobalPrefix)
+	}
+	if color != "" {
+		prefix = fmt.Sprintf("%s%s", prefix, color)
+	}
+	if localPrefix != "" {
+		prefix = fmt.Sprintf("%s%s -> ", prefix, localPrefix)
+	}
+
 	return prefix
 }
 
 // Return formatted log
-func formatLog(tag string, msg string, data interface{}) string {
-	var log string = fmt.Sprintf("%s -> %s -> data:\n%#v%s", tag, msg, data, ANSIReset)
-	return log
-}
+func formatLog(tag string, msg string, data any, shouldANSIReset bool) string {
+	log := msg
 
-// Internal log function that exported functions can call
-func logGeneral(log *log.Logger, tag string, msg string, data interface{}) {
-	log.Println(formatLog(tag, msg, data))
+	if tag != "" {
+		log = fmt.Sprintf("%s -> %s", tag, log)
+	}
+	if data != nil {
+		log = fmt.Sprintf("%s -> data:\n%#v", log, data)
+	}
+	if shouldANSIReset {
+		log = fmt.Sprintf("%s%s", log, ANSIReset)
+	}
+
+	return log
 }
 
 // Create a new logger similr to how you would create a default go log.Logger with log.New()
 func New(out io.Writer, color string, localPrefix string, flag int) *Logger {
-	var l *log.Logger = log.New(out, formatPrefix(color, localPrefix), flag)
-	return &Logger{l: l, color: color, localPrefix: localPrefix}
+	formattedPrefix := formatPrefix(color, localPrefix)
+	var l *log.Logger = log.New(out, formattedPrefix, flag)
+	return &Logger{l: l, color: color, localPrefix: localPrefix, calldepth: 1}
 }
 
 // Log something, you can provide:
 // a tag e.g. function name,
 // a msg e.g. info about something that happened,
 // a data interface, e.g. []int{3, 5, 6} OR 4+2
-func (l *Logger) Log(tag string, msg string, data interface{}) {
-	logGeneral(l.l, tag, msg, data)
+func (l *Logger) Log(tag string, msg string, data any) {
+	shouldANSIReset := l.color != ""
+	formattedLog := formatLog(tag, msg, data, shouldANSIReset)
+	l.l.Output(l.calldepth+1, formattedLog)
 }
 
 // Set local prefix of logger
 func (l *Logger) SetLocalPrefix(localPrefix string) {
 	l.localPrefix = localPrefix
-	l.l.SetPrefix(formatPrefix(l.color, localPrefix))
+	formattedPrefix := formatPrefix(l.color, localPrefix)
+	l.l.SetPrefix(formattedPrefix)
 }
 
 // Set color of logger
 func (l *Logger) SetColor(color string) {
 	l.color = color
-	l.l.SetPrefix(formatPrefix(color, l.localPrefix))
+	formattedPrefix := formatPrefix(color, l.localPrefix)
+	l.l.SetPrefix(formattedPrefix)
+}
+
+func (l *Logger) SetCalldepth(calldepth int) {
+	l.calldepth = calldepth
 }
