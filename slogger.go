@@ -96,6 +96,9 @@ func (l *Logger) SetColor(color string) {
 	l.l.SetPrefix(formattedPrefix)
 }
 
+// Set the calldepth of the logger, this allows log flags such as log.Lshortfile or log.Llongfile to report
+// the file/line of caller functions from further up the all stack if desired, otherwise a sensible default is used
+// for behavior similar to go's log.Logger
 func (l *Logger) SetCalldepth(calldepth int) {
 	l.calldepth = calldepth
 }

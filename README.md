@@ -22,19 +22,22 @@ go get github.com/jesse-rb/slogger-go
 package main
 
 import (
+	"log"
+	"os"
+
 	slogger "github.com/jesse-rb/slogger-go"
-    log
-    os
 )
 
 func main() {
-    // Declare some loggers
-    infoLogger := slogger.New(os.Stdout, slogger.ANSIBlue, "info", log.Lshortfile+log.Ldate);
-    errorLogger := slogger.New(os.Stderr, slogger.ANSIRed, "error", log.Lshortfile+log.Ldate);
+	slogger.GlobalPrefix = "[slogger-example]"
 
-    // Log some things
-    infoLogger.Log("main", "Something worth noting happened", 2+4)
-    errorLogger.Log("main", "Some horrible error happened", []int{3, 5, 7})
+	// Declare some loggers
+	infoLogger := slogger.New(os.Stdout, slogger.ANSIBlue, "INFO", log.Lshortfile+log.Ldate)
+	errorLogger := slogger.New(os.Stderr, slogger.ANSIRed, "ERROR", log.Lshortfile+log.Ldate)
+
+	// Log some things
+	infoLogger.Log("main()", "Something worth noting happened", 2+4)
+	errorLogger.Log("main()", "Some horrible error happened", []int{3, 5, 7})
 }
 ```
 
@@ -42,6 +45,12 @@ func main() {
 
 ![preview image A](previews/preview-a.png)
 
+```
+[slogger-example] -> INFO -> 2025/08/08 main.go:18: main() -> Something worth noting happened -> data:
+6
+[slogger-example] -> ERROR -> 2025/08/08 main.go:19: main() -> Some horrible error happened -> data:
+[]int{3, 5, 7}
+```
 
 ## References
 
